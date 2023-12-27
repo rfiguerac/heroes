@@ -1,44 +1,19 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import { AuthPage } from "../auth/pages/AuthPage";
-import { MarvelPages } from "../heroes/pages/MarvelPages";
-import { HeroesRouter } from "../auth/router/HeroesRouter";
-import { DcPages } from "../heroes/pages/DcPages";
-import { HeroesPage } from "../heroes/pages/HeroesPage";
-import { SearchPage } from "../heroes/pages/SearchPage";
+import { PrivateRouter } from "./PrivateRouter";
+import { PublicRouter } from "./PublicRouter";
+import { HeroesRoutes, childHeroesRoutes } from "../heroes/router/HeroesRouter";
 
 
-export const getRoutes = () => createBrowserRouter([
+export const getRoutes = createBrowserRouter([
     {
         path: "/login",
-        element: <AuthPage />,
+        element: <PublicRouter><AuthPage /></PublicRouter> ,
         // errorElement: <ErrorPage />,
     },
     {
-        path:'/',
-        element: <HeroesRouter/>,
-        children: [
-            {
-                path: "/marvel",
-                element: <MarvelPages/>,
-            },
-            {
-                path: "/dc",
-                element: <DcPages/>,
-            },
-            {
-                path: "/search",
-                element: <SearchPage/>,
-            },
-            {
-                path: "/heroes/:id",
-                element: <HeroesPage/>,
-            },
-            {
-                path: "/heroes",
-                element: <HeroesPage/>,
-            },
-        ]
-    }  
-        
-    
+        path: "/",
+        element: <PrivateRouter> <HeroesRoutes /> </PrivateRouter>,
+        children: childHeroesRoutes,        
+      },
 ]);

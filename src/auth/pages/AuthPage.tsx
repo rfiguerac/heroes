@@ -2,14 +2,20 @@
 import { Box, Button, Grid, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom";
 import LoginIcon from '@mui/icons-material/Login';
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 
 
 export const AuthPage = () => {
 
+  const {singIn} = useContext(AuthContext);
   const navigate = useNavigate();
+
   const handleIniciarSesion = () => {
-    navigate('/');
+    // iniciamos sesion 
+    singIn('Ricardo Andres');
+    navigate('/marvel');
   }
   return (
     <>

@@ -2,24 +2,30 @@
 
 //esta interface representa como se va a ver nuestro estado
 export interface AuthState {
-    status: 'checking' | 'authenticated' | 'notAuthenticated';
+    logged:boolean,
+    name:string
 }
 
 
+// los tipos de caso que va a resolver mi reducer
 type types =
-    | { type: '[Auth] Login' }
+    | { type: '[Auth] Login', payload:{name:string}}
     | { type: '[Auth] Logout'};
 
-
-
-
+//reducer
 export const authReducer = (state: AuthState, action:types): AuthState => {
     switch (action.type) {
         case '[Auth] Login':
-            return state;
+            return {
+                logged:true,
+                name:action.payload.name,
+            }
         
         case '[Auth] Logout':
-            return state;
+            return {
+                logged:false,
+                name:''
+            };
         default:
             return state;
     }

@@ -11,22 +11,28 @@ import Container from '@mui/material/Container';
 
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Drawer, List, ListItemButton, ListItemText } from '@mui/material';
 import { LocalPolice } from '@mui/icons-material';
+import { AuthContext } from '../../auth/context/AuthContext';
+
+
 
 
 const yourPages = [
-  { text: 'Heroes', href: '/heroes' },
   { text: 'Marvel', href: '/marvel' },
   { text: 'Dc comics', href: '/dc' },
- { text: 'Search', href: '/Search' },
-  { text: 'Login', href: '/login' }
+  { text: 'Search', href: '/Search' },
+ 
 ]
+
 
 const ResponsiveAppBar = () => {
 
+  const { name, logOut } = useContext(AuthContext);
+
   const navigate = useNavigate();
+
 
   const handleButtonClick = (urlPage: string) => {
     navigate(urlPage);
@@ -42,19 +48,41 @@ const ResponsiveAppBar = () => {
         anchor="left"
         onClose={() => setopen(false)}
       >
-        <Box sx={{width:250}}>
-        <List>
-          {
-            yourPages.map((page) => (
-              <ListItemButton key={page.href} onClick={() => handleButtonClick(page.href)}>
-                <ListItemText
-                  primary={page.text}
-                />
-              </ListItemButton>
+        <Box sx={{ width: 250 }}>
+          <List>
+            {
+              yourPages.map((page) => (
+                <ListItemButton
+                  key={page.href}
+                  onClick={() => handleButtonClick(page.href)}
+                >
+                  <ListItemText
+                    primary={page.text}
+                  />
+                </ListItemButton>
 
-            ))
-          }
-        </List>
+              ))
+            }
+            {
+              (name)
+                ? (<ListItemButton
+                  key={'logout'}
+                  onClick={() => logOut()}
+                >
+                  <ListItemText
+                    primary={'Logout'}
+                  />
+                </ListItemButton>)
+                : (<ListItemButton
+                  key={'Login'}
+                  onClick={() => handleButtonClick('/login')}
+                >
+                  <ListItemText
+                    primary={'Login'}
+                  />
+                </ListItemButton>)
+            }
+          </List>
         </Box>
       </Drawer>
     )
@@ -111,6 +139,23 @@ const ResponsiveAppBar = () => {
                 </Button>
 
               ))
+            }
+            {
+              (name)
+                ? (<Button
+                  key={'logout'}
+                  onClick={() => logOut()}
+                  sx={{ my: 2, color: 'white', display: 'block', }}
+                >
+                  {'Logout'}
+                </Button>)
+                : (<Button
+                  key={'Login'}
+                  onClick={() => handleButtonClick('/login')}
+                  sx={{ my: 2, color: 'white', display: 'block', }}
+                >
+                 {'Login'}
+                </Button>)
             }
           </Box>
           <Typography

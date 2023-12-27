@@ -1,27 +1,42 @@
-import { createBrowserRouter } from "react-router-dom";
-import { HeroesApp } from "../../HeroesApp";
-import { HeroesPage } from "../../heroes/pages/HeroesPage";
-import { MarvelPages } from "../../heroes/pages/MarvelPages";
-import { DcPages } from "../../heroes/pages/DcPages";
+import { Navigate, Outlet } from "react-router-dom"
+import ResponsiveAppBar from "../../ui/components/Navbar"
+import { HeroesPage } from "../pages/HeroesPage"
+import { SearchPage } from "../pages/SearchPage"
+import { DcPages } from "../pages/DcPage"
+import { MarvelPages } from "../pages/MarvelPage"
 
-export const getRoutes = () => createBrowserRouter([
+
+export const childHeroesRoutes = [
     {
-        path: "/",
-        element: <HeroesApp />,
-       // errorElement: <ErrorPage />,
-        children: [
-            {
-                path: "/marvel",
-                element: <MarvelPages />,
-            },
-            {
-                path: "/dc",
-                element: <DcPages />,
-            },
-            {
-                path: "/heroes",
-                element: <HeroesPage />,
-            }
-        ]
-    }
-]);
+      path: "/marvel",
+      element: <MarvelPages />,
+    },
+    {
+      path: "/dc",
+      element: <DcPages />,
+    },
+    {
+      path: "/search",
+      element: <SearchPage />,
+    },
+    {
+      path: "/heroes/:id",
+      element: <HeroesPage/>,
+    },
+    {
+      path: "/*",
+      element: <Navigate to={"/marvel"} />,
+    },
+  ]
+
+
+export const HeroesRoutes = () => {
+return (
+<>
+    <ResponsiveAppBar />
+    <div className="container">
+        <Outlet />
+    </div>
+</>
+)
+}
